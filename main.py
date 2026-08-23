@@ -1,3 +1,4 @@
+from kivy.metrics import dp
 from kivymd.app import MDApp
 from kivymd.uix.screenmanager import MDScreenManager
 from kivymd.uix.screen import MDScreen
@@ -5,13 +6,40 @@ from kivy import platform
 from kivy.core.window import Window
 
 
+
+FPS = 60
+
+BULLET_SPEED = dp(10)
+SHIP_SPEED = dp(10)
+
 class MainScreen(MDScreen):
     ...
 
 
 class GameScreen(MDScreen):
-    ...
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
 
+        self.eventkeys = {}
+        self.cartidge = []
+
+    def update(self): #todo керування кораблем та кулями
+        ...
+
+    def pressKey(self, key): #todo
+        ...
+
+    def releaseKey(self, key): #todo
+        ...
+
+    def moveLeft(self): #todo
+        ...
+
+    def moveRight(self): #todo
+        ...
+
+    def shot(self): #todo
+        ...
 
 class ShooterApp(MDApp):
     def build(self):
