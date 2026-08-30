@@ -1,3 +1,6 @@
+from random import randint
+
+from kivy.clock import Clock
 from kivy.metrics import dp
 from kivymd.app import MDApp
 from kivymd.uix.screenmanager import MDScreenManager
@@ -50,12 +53,13 @@ class PlayerShip(Ship):
     def update(self, keys):
         for key in keys:
             if keys[key] == True:
-                if key == "left" and self.center_x > 0:
+                if key == 'left' and self.center_x > 0:
                     self.moveLeft()
-                if key == "left" and self.center_x < Window.width:
+                if key == 'right' and self.center_x < Window.width:
                     self.moveRight()
-                if key == "shot":
+                if key == 'shot':
                     self.shot()
+                    keys[key] = False
 
 
 
@@ -77,17 +81,31 @@ class GameScreen(MDScreen):
 
         self.eventkeys = {}
         self.bullets = []
-
+        self.enemyShips = []
         self.ship = self.ids.ship
 
-    def update(self): #todo керування кораблем та кулями
+        #Window.bind(on_key_down=)
+        #Window.bind(on_key_up=)
+
+    def on_enter(self, *args):
+        self.updateEvent = Clock.schedule_interval(self.update, 1 / FPS)
+
+        ship = EnemyShip()
+        ship.pos = (randint(0, int(Window.size[0] - ship.size[0])), Window.size[1])
+        self.enemyShips.append(ship)
+        self.ids.front.add_widget(ship)
+
+        return super().on_enter(*args)
+
+    def update(self, dt):
         self.ship.update(self.eventkeys)
+        #todo logic enemy
 
-    def pressKey(self, key): #todo
-        ...
+    def pressKey(self, key):
+        self.eventkeys[key] = True
 
-    def releaseKey(self, key): #todo
-        ...
+    def releaseKey(self, key):
+        self.eventkeys[key] = False
 
 class ShooterApp(MDApp):
     def build(self):
