@@ -62,6 +62,7 @@ class PlayerShip(Ship):
                     keys[key] = False
 
 
+a = 10
 
 class EnemyShip(Ship):
     def __init__(self, *args, **kwargs):
